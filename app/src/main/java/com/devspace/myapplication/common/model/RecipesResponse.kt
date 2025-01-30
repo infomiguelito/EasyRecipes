@@ -1,7 +1,7 @@
-package com.devspace.myapplication
+package com.devspace.myapplication.common.model
 
 data class RecipesResponse(
-    val recipe: List<RecipesDto>
+    val recipes: List<RecipesDto>
 )
     data class RecipesDto(
         val id: Int,
