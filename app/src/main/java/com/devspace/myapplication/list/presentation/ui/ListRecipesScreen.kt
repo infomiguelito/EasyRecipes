@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.devspace.myapplication.ApiService
 import com.devspace.myapplication.common.model.RecipesDto
 import com.devspace.myapplication.common.model.RecipesResponse
 import com.devspace.myapplication.common.data.RetrofitClient
@@ -100,7 +99,6 @@ fun MainContent(
             recipes = recipes,
             onClick = onClick
         )
-
     }
 }
 

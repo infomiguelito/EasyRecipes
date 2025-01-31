@@ -3,13 +3,16 @@ package com.devspace.myapplication.list.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.devspace.myapplication.common.data.RetrofitClient
 import com.devspace.myapplication.common.model.RecipesDto
 import com.devspace.myapplication.common.model.RecipesResponse
 import com.devspace.myapplication.list.data.ListRecipes
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,23 +26,14 @@ class ListRecipesViewModel(
     val uiRandom: StateFlow<List<RecipesDto>> = _uiRandom
 
     init {
-        listRecipes.getRandom().enqueue(object : Callback<RecipesResponse> {
-            override fun onResponse(
-                call: Call<RecipesResponse>,
-                response: Response<RecipesResponse>
-            ) {
-                if (response.isSuccessful) {
-                    _uiRandom.value = response.body()?.recipes ?: emptyList()
-                } else {
-                    Log.d("ListRecipesViewModel", "Request Error :: ${response.errorBody()}")
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = listRecipes.getRandom()
+            if (response.isSuccessful) {
+                _uiRandom.value = response.body()?.recipes ?: emptyList()
+            } else {
+                Log.d("ListRecipesViewModel", "Request Error :: ${response.errorBody()}")
             }
-
-            override fun onFailure(call: Call<RecipesResponse>, t: Throwable) {
-                Log.d("ListRecipesViewModel", "Network Error :: ${t.message}")
-            }
-
-        })
+        }
     }
 
     companion object {
@@ -51,7 +45,6 @@ class ListRecipesViewModel(
                     listRecipes
                 ) as T
             }
-
         }
     }
 }

@@ -12,12 +12,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.devspace.myapplication.detail.presentation.RecipesDetailViewModel
 import com.devspace.myapplication.list.presentation.ListRecipesViewModel
+import com.devspace.myapplication.search.presentation.SearchRecipesViewModel
 import com.devspace.myapplication.ui.theme.EasyRecipesTheme
 
 class MainActivity : ComponentActivity() {
 
     private val listViewModel by viewModels<ListRecipesViewModel> { ListRecipesViewModel.Factory }
+    private val detailViewModel by viewModels<RecipesDetailViewModel> {RecipesDetailViewModel.Factory}
+    private val searchViewModel by viewModels<SearchRecipesViewModel> {SearchRecipesViewModel.Factory  }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +35,11 @@ class MainActivity : ComponentActivity() {
                         .safeDrawingPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App(listViewModel)
+                    App(
+                        listViewModel,
+                        detailViewModel,
+                        searchViewModel
+                        )
                 }
             }
         }
