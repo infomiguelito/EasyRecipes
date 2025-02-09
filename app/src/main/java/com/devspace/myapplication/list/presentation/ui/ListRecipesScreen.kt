@@ -1,6 +1,5 @@
 package com.devspace.myapplication.list.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,27 +18,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.devspace.myapplication.common.model.RecipesDto
-import com.devspace.myapplication.common.model.RecipesResponse
-import com.devspace.myapplication.common.data.RetrofitClient
 import com.devspace.myapplication.components.ERHtlmText
 import com.devspace.myapplication.components.ERSearchBar
 import com.devspace.myapplication.list.presentation.ListRecipesViewModel
-import com.devspace.myapplication.ui.theme.EasyRecipesTheme
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
 fun RecipesScreen(
@@ -72,11 +63,11 @@ fun RecipesScreen(
 }
 
 @Composable
-fun MainContent(
+private fun MainContent(
     modifier: Modifier = Modifier,
-    recipes: List<RecipesDto>,
+    recipes: RecipeListUiState,
     onSearchClicked: (String) -> Unit,
-    onClick: (RecipesDto) -> Unit
+    onClick: (RecipeUiData) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -96,7 +87,7 @@ fun MainContent(
 
         RecipesSession(
             label = "Recipes",
-            recipes = recipes,
+            recipeListUiState = recipes,
             onClick = onClick
         )
     }
@@ -129,26 +120,37 @@ fun SearchSession(
 @Composable
 fun RecipesSession(
     label: String,
-    recipes: List<RecipesDto>,
-    onClick: (RecipesDto) -> Unit
+    recipeListUiState: RecipeListUiState,
+    onClick: (RecipeUiData) -> Unit
 ) {
+
     Text(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
         text = label
     )
-    RecipeList(
-        recipes = recipes,
-        onClick = onClick
-    )
+    if (recipeListUiState.isLoading) {
+
+    } else if (recipeListUiState.isError) {
+        Text(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            color = Color.Red,
+            text = recipeListUiState.errorMessage?: "",
+        )
+    } else {
+        RecipeList(
+            recipes = recipeListUiState.list,
+            onClick = onClick
+        )
+    }
 }
 
 @Composable
 private fun RecipeList(
     modifier: Modifier = Modifier,
-    recipes: List<RecipesDto>,
-    onClick: (RecipesDto) -> Unit
+    recipes: List<RecipeUiData>,
+    onClick: (RecipeUiData) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.padding(16.dp)
@@ -161,8 +163,8 @@ private fun RecipeList(
 
 @Composable
 fun RecipeItem(
-    recipe: RecipesDto,
-    onClick: (RecipesDto) -> Unit
+    recipe: RecipeUiData,
+    onClick: (RecipeUiData) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -190,21 +192,5 @@ fun RecipeItem(
         )
 
         ERHtlmText(text = recipe.summary, maxLine = 3)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainPreview() {
-    EasyRecipesTheme {
-        MainContent(
-            recipes = emptyList(),
-            onSearchClicked = {
-
-            },
-            onClick = {
-
-            }
-        )
     }
 }

@@ -1,5 +1,6 @@
 package com.devspace.myapplication.detail.presentation
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -26,6 +27,7 @@ class RecipesDetailViewModel(
     private val _uiRecipesDetail = MutableStateFlow<RecipesDto?>(null)
     val uiRecipesDetail: StateFlow<RecipesDto?> = _uiRecipesDetail
 
+    @SuppressLint("SuspiciousIndentation")
     fun fetchRecipesDetail(id: String) {
         if (_uiRecipesDetail.value == null)
         viewModelScope.launch(Dispatchers.IO){
