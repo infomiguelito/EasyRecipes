@@ -9,16 +9,11 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.devspace.myapplication.common.data.RetrofitClient
 import com.devspace.myapplication.common.model.RecipesDto
 import com.devspace.myapplication.detail.data.RecipeDetail
-import com.devspace.myapplication.list.data.ListRecipes
-import com.devspace.myapplication.list.presentation.ListRecipesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RecipesDetailViewModel(
     private val recipesDetail: RecipeDetail

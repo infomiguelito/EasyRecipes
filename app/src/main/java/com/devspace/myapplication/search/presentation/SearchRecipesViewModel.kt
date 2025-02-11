@@ -6,19 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.devspace.myapplication.common.data.RetrofitClient
-import com.devspace.myapplication.common.model.RecipesDto
 import com.devspace.myapplication.common.model.SearchRecipeDto
-import com.devspace.myapplication.common.model.SearchRecipesResponse
-import com.devspace.myapplication.list.data.ListRecipes
-import com.devspace.myapplication.list.presentation.ListRecipesViewModel
 import com.devspace.myapplication.search.data.SearchRecipes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchRecipesViewModel(
     private val searchRecipes: SearchRecipes
