@@ -132,18 +132,19 @@ fun RecipesSession(
     )
     if (recipeListUiState.isLoading) {
 
-    } else if (recipeListUiState.isError) {
-        Text(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
-            color = Color.Red,
-            text = recipeListUiState.errorMessage?: "",
-        )
-    } else {
-        RecipeList(
-            recipes = recipeListUiState.list,
-            onClick = onClick
-        )
-    }
+    } else
+        if (recipeListUiState.isError) {
+            Text(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                color = Color.Red,
+                text = recipeListUiState.errorMessage ?: "",
+            )
+        } else {
+            RecipeList(
+                recipes = recipeListUiState.list,
+                onClick = onClick
+            )
+        }
 }
 
 @Composable

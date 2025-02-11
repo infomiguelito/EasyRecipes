@@ -29,22 +29,23 @@ class ListRecipesViewModel(
     private fun fetchGetRandom() {
         _uiRandom.value = RecipeListUiState(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.getRecipes()
-            if (result.isSuccess) {
-                val recipe = result.getOrNull()?.result
+            val response = repository.getRecipes()
+            if (response.isSuccess) {
+                val recipe = response.getOrNull()?.recipes
                 if (recipe != null) {
                     val recipeUiDataList = recipe.map { recipesDto ->
                         RecipeUiData(
                             id = recipesDto.id,
-                            image = recipesDto.image,
                             title = recipesDto.title,
+                            image = recipesDto.image,
                             summary = recipesDto.summary,
+
                         )
                     }
                     _uiRandom.value = RecipeListUiState(list = recipeUiDataList)
                 }
             } else {
-                val ex = result.exceptionOrNull()
+                val ex = response.exceptionOrNull()
                 if (ex is UnknownHostException) {
                     _uiRandom.value = RecipeListUiState(
                         isError = true,
