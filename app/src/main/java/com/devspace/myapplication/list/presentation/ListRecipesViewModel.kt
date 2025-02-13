@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.devspace.myapplication.EasyRecipeApplication
-import com.devspace.myapplication.common.data.RetrofitClient
 import com.devspace.myapplication.list.presentation.ui.RecipeListUiState
 import com.devspace.myapplication.list.presentation.ui.RecipeUiData
-import com.devspace.myapplication.list.data.remote.ListService
 import com.devspace.myapplication.list.data.RecipesListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +31,7 @@ class ListRecipesViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val response = repository.getRecipes()
             if (response.isSuccess) {
-                val recipe = response.getOrNull()?.recipes
+                val recipe = response.getOrNull()
                 if (recipe != null) {
                     val recipeUiDataList = recipe.map { recipesDto ->
                         RecipeUiData(

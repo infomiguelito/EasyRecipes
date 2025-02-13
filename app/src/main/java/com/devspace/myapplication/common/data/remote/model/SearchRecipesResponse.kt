@@ -1,4 +1,4 @@
-package com.devspace.myapplication.common.model
+package com.devspace.myapplication.common.data.remote.model
 
 data class SearchRecipesResponse(
     val results: List<SearchRecipeDto>

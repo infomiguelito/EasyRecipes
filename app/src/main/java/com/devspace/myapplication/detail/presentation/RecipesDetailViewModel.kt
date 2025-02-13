@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.devspace.myapplication.common.data.RetrofitClient
-import com.devspace.myapplication.common.model.RecipesDto
+import com.devspace.myapplication.common.data.remote.RetrofitClient
+import com.devspace.myapplication.common.data.remote.model.RecipesDto
 import com.devspace.myapplication.detail.data.RecipeDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

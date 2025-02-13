@@ -2,7 +2,7 @@ package com.devspace.myapplication
 
 import android.app.Application
 import androidx.room.Room
-import com.devspace.myapplication.common.data.RetrofitClient
+import com.devspace.myapplication.common.data.remote.RetrofitClient
 import com.devspace.myapplication.common.data.local.EasyRecipesDataBase
 import com.devspace.myapplication.list.data.RecipesListRepository
 import com.devspace.myapplication.list.data.local.RecipeListLocalDataSource
