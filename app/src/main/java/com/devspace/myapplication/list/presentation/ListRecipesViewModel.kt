@@ -2,12 +2,14 @@ package com.devspace.myapplication.list.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.devspace.myapplication.EasyRecipeApplication
 import com.devspace.myapplication.common.data.RetrofitClient
 import com.devspace.myapplication.list.presentation.ui.RecipeListUiState
 import com.devspace.myapplication.list.presentation.ui.RecipeUiData
-import com.devspace.myapplication.list.data.ListService
+import com.devspace.myapplication.list.data.remote.ListService
 import com.devspace.myapplication.list.data.RecipesListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,9 +64,9 @@ class ListRecipesViewModel(
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-                val listRecipes = RetrofitClient.retrofitInstance.create(ListService::class.java)
+                val application = checkNotNull(extras[APPLICATION_KEY])
                 return ListRecipesViewModel(
-                    repository = RecipesListRepository(listRecipes)
+                    repository = (application as EasyRecipeApplication).repository
                 ) as T
             }
         }
